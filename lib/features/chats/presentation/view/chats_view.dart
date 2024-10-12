@@ -11,6 +11,15 @@ class ChatView extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorsApp.primaryColorApp,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: ColorsApp.primaryColorApp,
         title: const Text(
           'Chats',
