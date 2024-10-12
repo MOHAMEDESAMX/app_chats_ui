@@ -14,104 +14,128 @@ class SignUpBody extends StatefulWidget {
 
 class _SignUpBodyState extends State<SignUpBody> {
   bool isNotVisable = true;
+  final formkey =GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                radius: 140,
-                backgroundImage: AssetImage(Images.logo),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Create A New Account",
-                    style: Style.textStyle20,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const CustomTextFormField(
-                label: "Name",
-                prefixIcon: Icons.person,
-                hintText: "enter your name",
-                keyboardType: TextInputType.name,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const CustomTextFormField(
-                label: "email",
-                prefixIcon: Icons.email,
-                hintText: "enter your email",
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomTextFormField(
-                obscureText: isNotVisable,
-                label: "password",
-                prefixIcon: Icons.lock,
-                hintText: "enter your password",
-                keyboardType: TextInputType.visiblePassword,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isNotVisable = !isNotVisable;
-                    });
-                  },
-                  icon: Icon(
-                      (isNotVisable) ? Icons.visibility_off : Icons.visibility),
+          child: Form(
+            key: formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 140,
+                  backgroundImage: AssetImage(Images.logo),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const CustomTextFormField(
-                obscureText: true,
-                label: "confirm password",
-                prefixIcon: Icons.lock,
-                hintText: "confirm your password",
-                keyboardType: TextInputType.visiblePassword,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              CustomButton(
-                  text: "Sign Up",
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ChatView(),
-                        ));
-                  }),
-              const Spacer(),
-              Row(
-                children: [
-                  const Text("Have account ? ", style: Style.textStyle16),
-                  TextButton(
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Create A New Account",
+                      style: Style.textStyle20,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                CustomTextFormField(
+                  label: "Name",
+                  validator: (value) {
+                    if(value!.isEmpty){
+                      return "Please Enter Your Name";
+                    }
+                    return null;
+                  },
+                  prefixIcon: Icons.person,
+                  hintText: "enter your name",
+                  keyboardType: TextInputType.name,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextFormField(
+                  label: "email",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please Enter Your Email";
+                    }
+                    return null;
+                  },
+                  prefixIcon: Icons.email,
+                  hintText: "enter your email",
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextFormField(
+                  obscureText: isNotVisable,
+                  label: "password",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please Enter Your password";
+                    }
+                    return null;
+                  },
+                  prefixIcon: Icons.lock,
+                  hintText: "enter your password",
+                  keyboardType: TextInputType.visiblePassword,
+                  suffixIcon: IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const LoginView(),
-                      ));
+                      setState(() {
+                        isNotVisable = !isNotVisable;
+                      });
                     },
-                    child: Text("Login Now",
-                        style: Style.textStyle16.copyWith(
-                            color: Colors.cyan, fontWeight: FontWeight.bold)),
-                  )
-                ],
-              ),
-            ],
+                    icon: Icon(
+                        (isNotVisable) ? Icons.visibility_off : Icons.visibility),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const CustomTextFormField(
+                  obscureText: true,
+                  label: "confirm password",
+                  prefixIcon: Icons.lock,
+                  hintText: "confirm your password",
+                  keyboardType: TextInputType.visiblePassword,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                CustomButton(
+                    text: "Sign Up",
+                    onPressed: () {
+                      if(formkey.currentState!.validate()){
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const ChatView(),
+                            ));
+                      }
+                      
+                    }),
+                const Spacer(),
+                Row(
+                  children: [
+                    const Text("Have account ? ", style: Style.textStyle16),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const LoginView(),
+                        ));
+                      },
+                      child: Text("Login Now",
+                          style: Style.textStyle16.copyWith(
+                              color: Colors.cyan, fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
