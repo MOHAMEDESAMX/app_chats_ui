@@ -16,9 +16,6 @@ class CustomTextFormField extends StatelessWidget {
     required this.keyboardType,
     this.suffixIcon,
     this.obscureText,
-    //required this.controller,
-    //this.validator,
-    //this.obscureText = false,
   });
 
 

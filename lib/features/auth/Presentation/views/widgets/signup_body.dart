@@ -2,26 +2,24 @@ import 'package:app_chats_ui/core/constants/images.dart';
 import 'package:app_chats_ui/core/shared_widgets/custom_button.dart';
 import 'package:app_chats_ui/core/shared_widgets/custom_textformfield.dart';
 import 'package:app_chats_ui/core/themes/style.dart';
-import 'package:app_chats_ui/features/login/presentation/view/login_view.dart';
+import 'package:app_chats_ui/features/chats/presentation/view/chats_view.dart';
+import 'package:app_chats_ui/features/auth/Presentation/views/login_view.dart';
 import 'package:flutter/material.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
-
+class SignUpBody extends StatefulWidget {
+  const SignUpBody({super.key});
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  State<SignUpBody> createState() => _SignUpBodyState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
-  IconData iconData = Icons.visibility;
-  bool obs = true;
+class _SignUpBodyState extends State<SignUpBody> {
+  bool isNotVisable = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
+    return Center(
+      child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -35,7 +33,7 @@ class _SignUpViewState extends State<SignUpView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "SignUp Now",
+                    "Create A New Account",
                     style: Style.textStyle20,
                   ),
                 ],
@@ -60,27 +58,20 @@ class _SignUpViewState extends State<SignUpView> {
                 height: 10,
               ),
               CustomTextFormField(
-                obscureText: obs,
+                obscureText: isNotVisable,
                 label: "password",
                 prefixIcon: Icons.lock,
                 hintText: "enter your password",
                 keyboardType: TextInputType.visiblePassword,
                 suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (iconData == Icons.visibility_off) {
-                          iconData = Icons.visibility;
-                          obs = true;
-                        } else {
-                          iconData = Icons.visibility_off;
-                          obs = false;
-                        }
-                      });
-                    },
-                    icon: Icon(
-                      iconData,
-                      color: Colors.cyan,
-                    )),
+                  onPressed: () {
+                    setState(() {
+                      isNotVisable = !isNotVisable;
+                    });
+                  },
+                  icon: Icon(
+                      (isNotVisable) ? Icons.visibility_off : Icons.visibility),
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -95,22 +86,29 @@ class _SignUpViewState extends State<SignUpView> {
               const SizedBox(
                 height: 30,
               ),
-              CustomButton(text: "Sign Up", onPressed: () {}),
+              CustomButton(
+                  text: "Sign Up",
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChatView(),
+                        ));
+                  }),
               const Spacer(),
               Row(
                 children: [
                   const Text("Have account ? ", style: Style.textStyle16),
-                  InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginView(),
-                            ));
-                      },
-                      child: Text("Login Now",
-                          style: Style.textStyle16.copyWith(
-                              color: Colors.cyan, fontWeight: FontWeight.bold)))
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const LoginView(),
+                      ));
+                    },
+                    child: Text("Login Now",
+                        style: Style.textStyle16.copyWith(
+                            color: Colors.cyan, fontWeight: FontWeight.bold)),
+                  )
                 ],
               ),
             ],
