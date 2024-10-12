@@ -1,5 +1,6 @@
+//import 'package:app_chats_ui/features/chats/presentation/view/chats_view.dart';
+import 'package:app_chats_ui/features/auth/Presentation/views/login_view.dart';
 import 'package:flutter/material.dart';
-import 'package:app_chats_ui/features/chats/presentation/view/chats_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatView(),
+      home: LoginView(),
     );
   }
 }
