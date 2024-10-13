@@ -1,3 +1,4 @@
+import 'package:app_chats_ui/features/chats/presentation/view/contact_chat.dart';
 import 'package:app_chats_ui/features/chats/presentation/view_model/users_model.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +6,6 @@ class Chats extends StatelessWidget {
   const Chats({
     super.key,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,24 @@ class Chats extends StatelessWidget {
           itemCount: chats.length,
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {
-              ImageProvider? imageProvider;
+            ImageProvider? imageProvider;
             if (chats[index].imageUrl.startsWith('https')) {
               imageProvider = NetworkImage(chats[index].imageUrl);
             } else {
               imageProvider = AssetImage(chats[index].imageUrl);
             }
             return ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ContactChat(
+                      imageProvider: imageProvider,
+                      username: chats[index].name,
+                    ),
+                  ),
+                );
+              },
               leading: CircleAvatar(
                 radius: 30,
                 backgroundImage: imageProvider,
